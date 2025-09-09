@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karthik Narayanan | Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0a0a0f;
+      color: #f0f0f5;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Starry Background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 4s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(1); }
+      to { opacity: 1; transform: scale(1.3); }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: rgba(10, 10, 15, 0.95);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #00f5d4;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      font-weight: 500;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    /* All hoverable elements unified style */
+    nav a:hover,
+    .card:hover,
+    button:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Hamburger Button */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #f0f0f5;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 2 rem;
+    }
+
+    /* Sections */
+    section {
+      min-height: auto;
+      padding: 5rem 10% 3rem;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding-top: 8rem;
+    }
+
+    .hero h2 {
+      font-size: 3.2rem;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(90deg, #00f5d4, #00bbf9, #9b5de5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 3s infinite alternate;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #bbb;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      background: linear-gradient(90deg, #00f5d4, #00bbf9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: subtleGlow 4s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 8px #00f5d4aa; }
+      to { text-shadow: 0 0 18px #9b5de588; }
+    }
+
+    @keyframes subtleGlow {
+      from { text-shadow: 0 0 6px #00f5d488; }
+      to { text-shadow: 0 0 12px #00bbf988; }
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 12px;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 16px #00f5d4aa;
+    }
+
+    .card h3 {
+      margin-bottom: 0.6rem;
+      color: #00f5d4;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #ccc;
+      text-align: justify;
+    }
+
+    /* Contact Form */
+    form {
+      max-width: 600px;
+      margin: auto;
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, textarea {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #1a1a20;
+      color: #f0f0f5;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    input:hover, textarea:hover, input:focus, textarea:focus {
+      background: rgba(255,255,255,0.06);
+      outline: none;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    button {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #00f5d4;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: #111;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    section p {
+      text-align: justify;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0.8rem auto 0;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: 60px;
+        right: 5%;
+        background: rgba(10, 10, 15, 0.95);
+        flex-direction: column;
+        width: 200px;
+        border-radius: 8px;
+        padding: 1rem;
+        display: none;
+      }
+
+      nav ul li {
+        margin: 1rem 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      nav.active ul {
+        display: flex;
+      }
+    }
+.card .btn {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a8d8e8;  /* balanced soft cyan-gray */
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  align-self: center;
+
+}
+
+.card .btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #d0f0ff; /* lighter cyan on hover */
+  box-shadow: 0 0 12px #00bbf966, 0 0 20px #9b5de544; /* subtle cyan + purple glow */
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Starry Background -->
+  <div class="stars" id="stars"></div>
+
+  <header>
+    <h1>Karthik Narayanan</h1>
+    <nav>
+      <div class="menu-toggle" id="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publication">Publication</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h2>Hello, I'm Karthik Narayanan</h2>
+    <p>A Developer & Data Enthusiast exploring the future of Data Science, Web, and App Development</p>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      I am building my career at the crossroads of technology, research, and innovation, with a strong focus on developing impactful solutions. I enjoy combining analytical thinking with creative design to tackle real-world challenges. Staying adaptable and curious, I continuously learn to keep pace with emerging technologies. My goal is to contribute to projects that not only solve problems effectively but also deliver value through innovation and usability.
+    </p>
+<h2>Interests</h2>
+    <p>
+    I am passionate about data science and deeply interested in research, particularly in machine learning and artificial intelligence, to uncover actionable insights and solve practical problems. I enjoy exploring new methodologies and contributing to advancements in these fields. In addition, I have a strong interest in web and app development, finding fulfillment in designing and building functional, user-friendly applications. Driven by my passion for computer science, I strive to create innovative solutions that address real-world challenges and am committed to continuous learning and collaboration.
+  </p>  
+</section>
+<section id="education">
+  <h2>Education</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>B.Tech in Data Science and Artificial Intelligence</h3>
+      <p>IIT Madras</p>
+      <p>Expected Graduation: 2027</p>
+      <p>CGPA: 7.75 / 10 (current)</p>
+    </div>
+    <div class="card">
+      <h3>B.E. in Electrical and Electronics Engineering</h3>
+      <p>Sri Sairam Institute of Technology</p>
+      <p>Expected Graduation: 2026</p>
+      <p>CGPA: 8.2 / 10 (current)</p>
+    </div>
+  </div>
+</section>
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="cards">
+    <div class="card"><h3>Programming</h3><p>Python, Java, C, C++, JavaScript</p></div>
+    <div class="card"><h3>CS Fundamentals</h3><p>Algorithm Design, Data Structures, Problem Solving</p></div>
+    <div class="card"><h3>Data Science & AI</h3>
+      <p>Pandas, NumPy, Scikit-learn, TensorFlow</p>
+      <p>Machine Learning, Data Visualization, Computer Vision</p>
+    </div>
+    <div class="card"><h3>Web Development</h3><p>HTML, CSS, JavaScript</p></div>
+    <div class="card"><h3>App Development</h3><p>Android, Flutter</p></div>
+    <div class="card"><h3>Other Tools</h3><p>Git, GitHub, SQL, Linux, Blender (3D Animation)</p></div>
+  </div>
+</section>
+
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Flight Price Prediction</h3>
+      <p>Built and tuned ML models to predict flight prices using features like distance, class, and airline.</p>
+      <a href="https://colab.research.google.com/drive/1YGIq67c7Hf64N8l5kIdDq4wFeeo_qnoe?usp=sharing" target="_blank" class="btn">Open in Colab</a>
+    </div>
+    <div class="card">
+      <h3>Prediction of Customer Rating on an Eatery</h3>
+      <p>Preprocessed review data and trained text classifiers to predict customer ratings.</p>
+      <a href="https://colab.research.google.com/drive/1UDwM7yh_pfcG6SOfy_Em_EadGovkXB-4?usp=sharing" target="_blank" class="btn">Open in Colab</a>
+    </div>
+    <div class="card">
+      <h3>Influencer Engagement and Sponsorship Coordination Platform</h3>
+      <p>A platform that connects sponsors with influencers for ad campaigns. REST API used for backend
+communication.</p>
+      <a href="https://github.com/KARTHIK-Coding/si_platform.git" target="_blank" class="btn">View on GitHub</a>
+    </div>
+    <div class="card">
+      <h3>Household Services Application</h3>
+      <p>A web app connecting residents with service providers. Implements background tasks using Redis and Celery.</p>
+      <a href="https://github.com/KARTHIK-Coding/household_services.git" target="_blank" class="btn">View on GitHub</a>
+    </div>
+
+    <!--
+    <div class="card">
+      <h3>Project Five</h3>
+      <p></p>
+      <a href="https://github.com/yourusername/project-five" target="_blank" class="btn">View on GitHub</a>
+    </div>
+    -->
+  </div>
+</section>
+
+
+
+<section id="publication" style="text-align: center;">
+  <h2>Publication</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Research Paper: Gesture-Based Home Automation Simulation Using Machine Learning</h3>
+      <p>Developed and implemented a novel methodology for automating electrical appliances through gesture recognition, leveraging machine learning techniques for real-time detection and classification of hand gestures. The system was trained on a curated dataset and optimized to achieve an accuracy of 86% under controlled environmental conditions such as consistent lighting and fixed distance. My responsibilities encompassed designing the architecture, programming the machine learning model, conducting training sessions, and performing performance evaluations. This research contributes to advancing intuitive human-computer interaction within smart home automation systems.</p>
+      <a href="https://doi.org/10.1109/ICCCT63501.2025.11019251" target="_blank" class="btn" style="display: inline-block; margin-top: 1em;">View</a>
+    </div>
+  </div>
+</section>
+
+
+ <section id="achievements" style="text-align: center;">
+  <h2>Achievements</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Graduate Aptitude Test for Engineers (GATE) – Data Science &amp; Artificial Intelligence, 2025</h3>
+      <p><strong>GATE Score:</strong> 366 &nbsp;&nbsp; <strong>Marks:</strong> 30.33 / 100</p>
+      <p>Qualified GATE in Data Science & Artificial Intelligence, reflecting a solid understanding of core concepts and a commitment to continuous learning in the field.</p>
+    </div>
+  </div>
+</section>
+
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Mail</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 My Portfolio | Designed with passion for technology</p>
+  </footer>
+
+  <script>
+    // Toggle Mobile Menu
+    const menuToggle = document.getElementById("menu-toggle");
+    const nav = document.querySelector("nav");
+    menuToggle.addEventListener("click", () => {
+      nav.classList.toggle("active");
+    });
+
+    // Generate static stars
+    const starsContainer = document.getElementById("stars");
+    const numStars = 60;
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.left = Math.random() * 100 + "%";
+      star.style.animationDuration = (2 + Math.random() * 4) + "s";
+      starsContainer.appendChild(star);
+    }
+  </script>
+</body>
+</html>
