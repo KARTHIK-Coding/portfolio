@@ -1,15 +1,16 @@
 /* ---------------------------------------------
-   Design tokens
+   Design tokens — dark, with the network visible
+   through every section as a fixed backdrop
 --------------------------------------------- */
 :root {
-  --paper:      #FAF9F6;
-  --paper-alt:  #F2F0EA;
-  --ink:        #1B1E24;
-  --ink-soft:   #4B5060;
-  --ink-faint:  #8A8F9C;
-  --line:       #DCD8CE;
-  --accent:     #2E3A59;   /* deep indigo */
-  --accent-alt: #A87B41;   /* warm brass, used sparingly */
+  --paper:      #14161C;   /* page base (dark) */
+  --paper-alt:  #1B1E26;   /* slightly elevated panels/cards */
+  --ink:        #F3F1EA;   /* primary text (light) */
+  --ink-soft:   #B7BAC3;   /* secondary text */
+  --ink-faint:  #7C8090;   /* muted/labels */
+  --line:       rgba(255, 255, 255, 0.11);
+  --accent:     #9DB0DE;   /* soft periwinkle, links/roles */
+  --accent-alt: #CC9A63;   /* warm brass, used sparingly */
   --white:      #FFFFFF;
 
   --font-display: 'Source Serif 4', Georgia, serif;
@@ -41,15 +42,33 @@ a { color: inherit; }
   padding: 0 32px;
 }
 
-/* Subtle paper grain to keep the flat colour from feeling like a screen default */
+/* Fixed 3D network — sits behind the entire site and stays
+   in view while the page scrolls. */
+#neuralBg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* Everything else renders in a stacking context above the canvas */
+.site-header, main, .site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle grain to keep the flat dark colour from feeling like a screen default */
 .grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.025;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
+  mix-blend-mode: overlay;
 }
 
 /* ---------------------------------------------
@@ -80,7 +99,7 @@ p { color: var(--ink-soft); }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 249, 246, 0.88);
+  background: rgba(20, 22, 28, 0.72);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -148,17 +167,14 @@ p { color: var(--ink-soft); }
    Hero
 --------------------------------------------- */
 .hero {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 56px;
-  align-items: center;
-  padding: 88px 32px 96px;
+  padding: 120px 32px 110px;
+  max-width: 760px;
 }
 
 .eyebrow + h1 { margin-top: 10px; }
 
 .hero-text h1 {
-  font-size: clamp(2.6rem, 4.5vw, 3.6rem);
+  font-size: clamp(2.8rem, 5vw, 4rem);
   line-height: 1.08;
 }
 
@@ -171,15 +187,15 @@ p { color: var(--ink-soft); }
 
 .hero-lede {
   margin-top: 22px;
-  max-width: 46ch;
-  font-size: 1.05rem;
+  max-width: 52ch;
+  font-size: 1.08rem;
   color: var(--ink-soft);
 }
 
 .hero-actions {
   display: flex;
   gap: 14px;
-  margin-top: 32px;
+  margin-top: 34px;
 }
 
 .btn {
@@ -197,7 +213,7 @@ p { color: var(--ink-soft); }
   background: var(--ink);
   color: var(--paper);
 }
-.btn-primary:hover { background: var(--accent); }
+.btn-primary:hover { background: var(--accent); color: var(--paper); }
 .btn-ghost {
   border-color: var(--line);
   color: var(--ink);
@@ -206,7 +222,7 @@ p { color: var(--ink-soft); }
 
 .hero-meta {
   list-style: none;
-  margin-top: 44px;
+  margin-top: 48px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
   display: flex;
@@ -229,29 +245,11 @@ p { color: var(--ink-soft); }
 .hero-meta a { text-decoration: none; color: var(--ink); }
 .hero-meta a:hover { color: var(--accent-alt); }
 
-.hero-figure {
-  position: relative;
-}
-#neuralHero {
-  width: 100%;
-  aspect-ratio: 1 / 0.92;
-  display: block;
-  border-radius: var(--radius);
-  background: var(--ink);
-}
-.figure-caption {
-  margin-top: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--ink-faint);
-  text-align: center;
-}
-
 /* ---------------------------------------------
-   Section layout
+   Section layout — transparent by default so the
+   fixed network reads through as you scroll
 --------------------------------------------- */
 .section { padding: 76px 0; border-top: 1px solid var(--line); }
-.section.alt { background: var(--paper-alt); }
 
 .section-grid {
   display: grid;
@@ -344,14 +342,16 @@ p { color: var(--ink-soft); }
 }
 .paper-link:hover { border-bottom-color: var(--accent); }
 
-/* Additional projects grid */
+/* Additional projects grid — kept as elevated cards for legibility
+   against the animated backdrop */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
 }
 .project-card {
-  background: var(--paper);
+  background: rgba(27, 30, 38, 0.72);
+  backdrop-filter: blur(6px);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
@@ -399,36 +399,23 @@ p { color: var(--ink-soft); }
 
 /* Contact */
 .contact-section {
-  position: relative;
   text-align: center;
-  padding: 96px 0 100px;
-  overflow: hidden;
-  background: var(--ink);
+  padding: 110px 0 120px;
 }
-.contact-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.55;
-  pointer-events: none;
-}
-.contact-section .wrap { position: relative; z-index: 1; }
-.contact-section .eyebrow { color: rgba(250, 249, 246, 0.55); }
 .contact-heading {
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   max-width: 640px;
   margin: 16px auto 32px;
   line-height: 1.35;
-  color: var(--paper);
+  color: var(--ink);
 }
 .contact-links { display: flex; justify-content: center; gap: 28px; }
 .contact-links a {
   text-decoration: none;
   font-size: 1rem;
   padding-bottom: 3px;
-  color: var(--paper);
-  border-bottom: 1px solid rgba(250, 249, 246, 0.3);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 .contact-links a:hover { border-bottom-color: var(--accent-alt); color: var(--accent-alt); }
 
@@ -447,8 +434,7 @@ p { color: var(--ink-soft); }
    Responsive
 --------------------------------------------- */
 @media (max-width: 880px) {
-  .hero { grid-template-columns: 1fr; padding-top: 56px; }
-  .hero-figure { order: -1; max-width: 360px; margin: 0 auto; }
+  .hero { padding-top: 90px; }
   .section-grid { grid-template-columns: 1fr; gap: 20px; }
   .skills-grid { grid-template-columns: 1fr; }
 
