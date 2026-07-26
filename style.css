@@ -1,16 +1,15 @@
 /* ---------------------------------------------
-   Design tokens — dark, with the network visible
-   through every section as a fixed backdrop
+   Design tokens
 --------------------------------------------- */
 :root {
-  --paper:      #14161C;   /* page base (dark) */
-  --paper-alt:  #1B1E26;   /* slightly elevated panels/cards */
-  --ink:        #F3F1EA;   /* primary text (light) */
-  --ink-soft:   #B7BAC3;   /* secondary text */
-  --ink-faint:  #7C8090;   /* muted/labels */
-  --line:       rgba(255, 255, 255, 0.11);
-  --accent:     #9DB0DE;   /* soft periwinkle, links/roles */
-  --accent-alt: #CC9A63;   /* warm brass, used sparingly */
+  --paper:      #FAF9F6;
+  --paper-alt:  #F2F0EA;
+  --ink:        #1B1E24;
+  --ink-soft:   #4B5060;
+  --ink-faint:  #8A8F9C;
+  --line:       #DCD8CE;
+  --accent:     #2E3A59;   /* deep indigo */
+  --accent-alt: #A87B41;   /* warm brass, used sparingly */
   --white:      #FFFFFF;
 
   --font-display: 'Source Serif 4', Georgia, serif;
@@ -42,33 +41,15 @@ a { color: inherit; }
   padding: 0 32px;
 }
 
-/* Fixed 3D network — sits behind the entire site and stays
-   in view while the page scrolls. */
-#neuralBg {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  display: block;
-}
-
-/* Everything else renders in a stacking context above the canvas */
-.site-header, main, .site-footer {
-  position: relative;
-  z-index: 1;
-}
-
-/* Subtle grain to keep the flat dark colour from feeling like a screen default */
+/* Subtle paper grain to keep the flat colour from feeling like a screen default */
 .grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.03;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
 }
 
 /* ---------------------------------------------
@@ -89,8 +70,13 @@ h1, h2, h3, h4 {
   color: var(--ink-faint);
 }
 .eyebrow.center { text-align: center; }
+.hero .eyebrow { text-align: center; }
 
-p { color: var(--ink-soft); }
+p {
+  color: var(--ink-soft);
+  text-align: justify;
+  text-justify: inter-word;
+}
 
 /* ---------------------------------------------
    Header
@@ -99,7 +85,7 @@ p { color: var(--ink-soft); }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(20, 22, 28, 0.72);
+  background: rgba(250, 249, 246, 0.88);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -164,38 +150,46 @@ p { color: var(--ink-soft); }
 .nav-toggle span { width: 22px; height: 2px; background: var(--ink); }
 
 /* ---------------------------------------------
-   Hero
+   Hero — large, centered, and presentable
 --------------------------------------------- */
 .hero {
   padding: 120px 32px 110px;
-  max-width: 760px;
+  text-align: center;
 }
 
-.eyebrow + h1 { margin-top: 10px; }
+.hero-text {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.eyebrow + h1 { margin-top: 16px; }
 
 .hero-text h1 {
-  font-size: clamp(2.8rem, 5vw, 4rem);
-  line-height: 1.08;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  line-height: 1.12;
 }
 
 .hero-role {
-  margin-top: 10px;
+  margin-top: 16px;
   font-family: var(--font-mono);
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: var(--accent);
 }
 
 .hero-lede {
-  margin-top: 22px;
+  margin: 26px auto 0;
   max-width: 52ch;
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   color: var(--ink-soft);
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .hero-actions {
   display: flex;
+  justify-content: center;
   gap: 14px;
-  margin-top: 34px;
+  margin-top: 38px;
 }
 
 .btn {
@@ -213,43 +207,18 @@ p { color: var(--ink-soft); }
   background: var(--ink);
   color: var(--paper);
 }
-.btn-primary:hover { background: var(--accent); color: var(--paper); }
+.btn-primary:hover { background: var(--accent); }
 .btn-ghost {
   border-color: var(--line);
   color: var(--ink);
 }
 .btn-ghost:hover { border-color: var(--ink); }
 
-.hero-meta {
-  list-style: none;
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.hero-meta li {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 0.9rem;
-}
-.hero-meta span {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-faint);
-}
-.hero-meta a { text-decoration: none; color: var(--ink); }
-.hero-meta a:hover { color: var(--accent-alt); }
-
 /* ---------------------------------------------
-   Section layout — transparent by default so the
-   fixed network reads through as you scroll
+   Section layout
 --------------------------------------------- */
 .section { padding: 76px 0; border-top: 1px solid var(--line); }
+.section.alt { background: var(--paper-alt); }
 
 .section-grid {
   display: grid;
@@ -257,7 +226,17 @@ p { color: var(--ink-soft); }
   gap: 48px;
 }
 
-.section-label { padding-top: 4px; }
+.section-label {
+  padding-top: 4px;
+  border-left: 2px solid var(--accent-alt);
+  padding-left: 18px;
+}
+.section-title {
+  margin-top: 12px;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
 
 .lead {
   font-size: 1.15rem;
@@ -313,6 +292,7 @@ p { color: var(--ink-soft); }
   margin-top: 4px;
   font-size: 0.92rem;
   color: var(--accent);
+  text-align: left;
 }
 .timeline-detail {
   margin-top: 8px;
@@ -331,6 +311,7 @@ p { color: var(--ink-soft); }
   font-size: 0.76rem;
   color: var(--ink-faint) !important;
   margin-top: 10px;
+  text-align: left;
 }
 .paper-link {
   display: inline-block;
@@ -342,16 +323,14 @@ p { color: var(--ink-soft); }
 }
 .paper-link:hover { border-bottom-color: var(--accent); }
 
-/* Additional projects grid — kept as elevated cards for legibility
-   against the animated backdrop */
+/* Additional projects grid */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 20px;
 }
 .project-card {
-  background: rgba(27, 30, 38, 0.72);
-  backdrop-filter: blur(6px);
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
@@ -368,7 +347,7 @@ p { color: var(--ink-soft); }
 /* Publication */
 .pub-card { max-width: 74ch; }
 .pub-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
-.pub-authors { font-size: 0.9rem; margin-bottom: 4px; }
+.pub-authors { font-size: 0.9rem; margin-bottom: 4px; text-align: left; }
 .pub-venue {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -398,23 +377,18 @@ p { color: var(--ink-soft); }
 .achievement-block p { font-size: 0.9rem; max-width: 68ch; }
 
 /* Contact */
-.contact-section {
-  text-align: center;
-  padding: 110px 0 120px;
-}
+.contact-section { text-align: center; padding: 96px 0 100px; }
 .contact-heading {
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   max-width: 640px;
   margin: 16px auto 32px;
   line-height: 1.35;
-  color: var(--ink);
 }
 .contact-links { display: flex; justify-content: center; gap: 28px; }
 .contact-links a {
   text-decoration: none;
   font-size: 1rem;
   padding-bottom: 3px;
-  color: var(--ink);
   border-bottom: 1px solid var(--line);
 }
 .contact-links a:hover { border-bottom-color: var(--accent-alt); color: var(--accent-alt); }
@@ -434,7 +408,6 @@ p { color: var(--ink-soft); }
    Responsive
 --------------------------------------------- */
 @media (max-width: 880px) {
-  .hero { padding-top: 90px; }
   .section-grid { grid-template-columns: 1fr; gap: 20px; }
   .skills-grid { grid-template-columns: 1fr; }
 
